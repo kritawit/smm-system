@@ -34,14 +34,14 @@
           <div class="form-group inline">
             <label for="cal_name"  class="col-lg-3 control-label"><b>Remark color  : </b></label>
             <div class="col-md-3" >
-          <select name="cal_colour" required id="cal_colour" class="form-control" >
+          <select name="cal_colour" id="cal_colour" class="form-control" >
           <option value="" selected>Please select</option>
-              <option value="event-danger">Red</option>
-              <option value="event-success">Green</option>
-              <option value="event-defualt">Grey</option>
-              <option value="event-primary">Blue</option>
-              <option value="event-warning">Orange</option>
-              <option value="event-info">Blue Sky</option>
+              <option value="event-inverse">inverse</option>
+              <option value="event-info">info</option>
+              <option value="event-success">success</option>
+              <option value="event-warning">warning</option>
+              <option value="event-important">important</option>
+              <option value="event-special">special</option>
           </select>
           </div>
           </div>

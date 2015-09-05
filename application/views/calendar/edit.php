@@ -34,14 +34,14 @@
           <div class="form-group inline">
             <label for="cal_name"  class="col-lg-3 control-label"><b>Remark color  : </b></label>
             <div class="col-md-3" >
-          <select name="cal_colour" required id="cal_colour" class="form-control" >
+          <select name="cal_colour" id="cal_colour" class="form-control" >
           <option value="" selected>Please select</option>
-              <option value="event-danger" <?php if($data[0]['CAL_COLOUR']=='danger'){echo 'selected';} ?>>Red</option>
-              <option value="event-success" <?php if($data[0]['CAL_COLOUR']=='success'){echo 'selected';} ?>>Green</option>
-              <option value="event-defualt" <?php if($data[0]['CAL_COLOUR']=='defualt'){echo 'selected';} ?>>Grey</option>
-              <option value="event-primary" <?php if($data[0]['CAL_COLOUR']=='primary'){echo 'selected';} ?>>Blue</option>
-              <option value="event-warning" <?php if($data[0]['CAL_COLOUR']=='warning'){echo 'selected';} ?>>Orange</option>
-              <option value="event-info" <?php if($data[0]['CAL_COLOUR']=='info'){echo 'selected';} ?>>Blue Sky</option>
+              <option value="event-inverse" <?php if($data[0]['CAL_COLOUR']=='event-inverse'){echo 'selected';} ?>>inverse</option>
+              <option value="event-info" <?php if($data[0]['CAL_COLOUR']=='event-info'){echo 'selected';} ?>>info</option>
+              <option value="event-success" <?php if($data[0]['CAL_COLOUR']=='event-success'){echo 'selected';} ?>>success</option>
+              <option value="event-warning" <?php if($data[0]['CAL_COLOUR']=='event-warning'){echo 'selected';} ?>>warning</option>
+              <option value="event-important" <?php if($data[0]['CAL_COLOUR']=='event-important'){echo 'selected';} ?>>important</option>
+              <option value="event-special" <?php if($data[0]['CAL_COLOUR']=='event-special'){echo 'selected';} ?>>special</option>
           </select>
           </div>
           </div>

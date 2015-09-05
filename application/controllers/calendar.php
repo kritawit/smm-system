@@ -58,7 +58,7 @@ class Calendar extends CI_Controller {
 		$rs = $this->calendarmodel->saveCalendar($val);
 
 		if ($rs == 'true') {
-			$this->session->set_flashdata('message_success', 'Add calendar success.');
+			$this->session->set_flashdata('message_success', 'Save calendar success.');
 			redirect('calendar/calendarform','refresh');
 		}else{
 			$this->session->set_flashdata('message', $rs);

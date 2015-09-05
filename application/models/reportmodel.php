@@ -40,9 +40,9 @@ class Reportmodel extends CI_Model {
 			$class = ' AND S.CLASSIDX = '.$data['classidx'];
 		}
 
-		$this->db->where('HOLI_DATE',$to_date);
-		$this->db->where('LOCAIDX',$this->session->userdata('LOCAIDX'));
-		$rq = $this->db->get('tbl_holiday');
+		$this->db->where('CAL_DATE',$to_date);
+		// $this->db->where('LOCAIDX',$this->session->userdata('LOCAIDX'));
+		$rq = $this->db->get('tbl_calendar');
 
 		if ($rq->num_rows()==0) {
 			$sql = "SELECT T1.* FROM\n".
@@ -60,8 +60,8 @@ class Reportmodel extends CI_Model {
 		"WHERE T1.STU_CODE NOT IN (\n".
 		"		SELECT STU_CODE FROM tbl_leave WHERE LEAVE_ACTIVE = 1 \n".
 		"		AND '$to_date' BETWEEN FDATE AND TDATE \n".
-		")";
-		print_r($sql);
+		")AND weekday(T1.AB_DATE) NOT IN (6, 5)";
+		// print_r($sql);
 			$q = $this->db->query($sql);
     		if ($q->num_rows()>0) {
         		return $q->result_array();
@@ -168,9 +168,9 @@ class Reportmodel extends CI_Model {
 		}
 	}
 
-	$this->db->where('HOLI_DATE',$data['to_date']);
-	$this->db->where('LOCAIDX',$this->session->userdata('LOCAIDX'));
-	$rq = $this->db->get('tbl_holiday');
+	$this->db->where('CAL_DATE',$data['to_date']);
+	// $this->db->where('LOCAIDX',$this->session->userdata('LOCAIDX'));
+	$rq = $this->db->get('tbl_calendar');
 
 	if ($rq->num_rows() == 0) {
 			$sql = "SELECT T.TIME_ACCIDX,S.STUIDX,t.STU_CODE,S.STU_TITLE,S.STU_FNAME,
@@ -207,7 +207,7 @@ class Reportmodel extends CI_Model {
 		}
 	}
 	public function get_by_peple($data = array()){
-		print_r($data);
+		// print_r($data);
 	}
 
 }
