@@ -1,0 +1,57 @@
+.media-body{
+	color: #FFFFFF;
+}
+#loader-img{
+	margin:5px; 
+	display: block;
+	opacity: 0.4;
+}
+#cover-table-student{
+	margin: 25px;
+}
+.modal-backdrop{
+	z-index: 0;
+}
+#warning{
+	margin: 10px;
+	display: none;
+}
+#succ{
+	display: none;
+	margin: 10px;
+}
+#wrapper{
+	padding-top: 60px;
+}
+#side-menu{
+	background-color: #f8f8f8;
+}
+#leave-content{
+	margin-top: 10px;
+}
+#content-search{
+	margin-top: 10px;
+}
+.content-report{
+	margin-top: 10px;
+	z-index: 1000;
+}
+#panel-search{
+	margin-top: 10px;
+}
+#student_list_length{
+	width: 466px;
+	float: left;
+}
+#student_list_filter{
+	float: left;
+	width: 466px;
+}
+
+#cover-table-absent{
+	margin: 25px;
+}
+.content-student{
+	margin-top: 10px;
+	z-index: 1000;
+}
