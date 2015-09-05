@@ -4,7 +4,10 @@
 	<div class="content-holiday">
 		<ol class="breadcrumb">
 			<li>
-				<a href="<?php echo base_url(); ?>calendar">ย้อนกลับ</a>
+				<a href="<?php echo base_url(); ?>">Home</a>
+			</li>
+			<li>
+				<a href="<?php echo base_url(); ?>calendar">ปฏิทิน โรงเรียน (School Calendar)</a>
 			</li>
 			<li class="active">ปฏิทิน</li>
 		</ol>

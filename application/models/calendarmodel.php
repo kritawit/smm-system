@@ -11,17 +11,24 @@ class Calendarmodel extends CI_Model {
 
 	function geteventcalendar(){
 		$where = '';
-		if ($this->session->userdata('LEVELIDX')!=1) {
-			$where .= 'AND LOCAIDX = '.$this->session->userdata('LOCAIDX');
-		}
-		$sql = "SELECT * FROM tbl_calendar WHERE CAL_ACTIVE = 1 $where ORDER BY CAL_DATE DESC";
+		// if ($this->session->userdata('LEVELIDX')!=1) {
+		// 	$where .= 'AND LOCAIDX = '.$this->session->userdata('LOCAIDX');
+		// }
+		// $sql = "SELECT * FROM tbl_calendar WHERE CAL_ACTIVE = 1 $where 
+		// ORDER BY CAL_DATE DESC";
+		$sql = "select CALIDX,CAL_DATE,c.CAL_COLOUR,c.CALTIDX,IFNULL(c.CAL_NAME,t.CALT_NAME)AS CAL_NAME from tbl_calendar c\n".
+"LEFT JOIN tbl_calendar_type t\n".
+"ON c.CALTIDX = t.CALTIDX\n".
+"WHERE c.CAL_ACTIVE = 1\n".
+"AND t.CALT_ACTIVE = 1";
+
 		$q = $this->db->query($sql);
 		$out = array();
 		foreach($q->result() as $row) {
     	$out[] = array(
         	'id' => $row->CALIDX,
         	'title' => $row->CAL_NAME,
-        	'class'=>'event-success',
+        	'class'=>$row->CAL_COLOUR,
         	'url' => '',
         	'start' => strtotime($row->CAL_DATE) . '000',
         	'end' => strtotime($row->CAL_DATE) .'000'
@@ -33,8 +40,8 @@ class Calendarmodel extends CI_Model {
 	function delCalendar($id=null){
 
 		$sql = "DELETE FROM tbl_calendar
-		WHERE HOLIDX IN(".$id.") ";
-		$sql .= " AND LOCAIDX = ".$this->session->userdata('LOCAIDX');
+		WHERE CALIDX IN(".$id.") ";
+		// $sql .= " AND LOCAIDX = ".$this->session->userdata('LOCAIDX');
 
 
 		if($this->db->query($sql)){
@@ -43,16 +50,50 @@ class Calendarmodel extends CI_Model {
 			return false;
 		}
 	}
+	function geteditcalendar($data=null){
+
+		$where = '';
+		if ($data != null) {
+			// $locaidx = $this->session->userdata('LOCAIDX');
+			// $where .= ' AND CALIDX IN ('.$data.') AND LOCAIDX = '.$locaidx;
+			$where .= ' WHERE c.CALIDX IN ('.$data.') ';
+		}
+
+		// $sql = "SELECT * FROM tbl_calendar WHERE CAL_ACTIVE = 1 $where ORDER BY CAL_DATE DESC";
+
+
+		$sql ="select * \n".
+"from tbl_calendar c \n".
+"LEFT JOIN tbl_calendar_type ct\n".
+"ON c.CALTIDX = ct.CALTIDX $where ORDER BY c.CAL_DATE DESC";
+
+
+		if ($q = $this->db->query($sql)) {
+			return $q->result_array();
+		}else{
+			return false;
+		}
+	}
 	function getallcalendar($data=null){
 
 		$where = '';
 		if ($data != null) {
-			$locaidx = $this->session->userdata('LOCAIDX');
-			$where .= ' AND CALIDX IN ('.$data.') AND LOCAIDX = '.$locaidx;
+			// $locaidx = $this->session->userdata('LOCAIDX');
+			// $where .= ' AND CALIDX IN ('.$data.') AND LOCAIDX = '.$locaidx;
+			$where .= ' AND c.CALIDX IN ('.$data.') ';
 		}
 
-		$sql = "SELECT * FROM tbl_calendar WHERE CAL_ACTIVE = 1 $where ORDER BY CAL_DATE DESC";
-		// print_r($sql);
+		// $sql = "SELECT * FROM tbl_calendar WHERE CAL_ACTIVE = 1 $where ORDER BY CAL_DATE DESC";
+
+
+		$sql ="select c.CALIDX, \n".
+"IFNULL(c.CAL_NAME,ct.CALT_NAME)AS TYPE,c.CAL_DATE\n".
+"from tbl_calendar c \n".
+"LEFT JOIN tbl_calendar_type ct\n".
+"ON c.CALTIDX = ct.CALTIDX $where ORDER BY c.CAL_DATE DESC";
+
+
+
 		if ($q = $this->db->query($sql)) {
 			return $q->result_array();
 		}else{
@@ -63,31 +104,52 @@ class Calendarmodel extends CI_Model {
 	function saveCalendar($data = array()){
 
 		$memidx =$this->session->userdata('MEMIDX');
-		$locaidx = $this->session->userdata('LOCAIDX');
+		// $locaidx = $this->session->userdata('LOCAIDX');
 
-		if ($data['calidx']!=null) {
-			$value = array(
-               	'MEMIDX' => $memidx,
-				'CAL_NAME' => $data['cal_name'],
-				'LOCAIDX' => $locaidx,
-            );
+		if (!empty($data['calidx'])) {
+
+			if (!empty($data['caltidx'])) {
+				$value = array(
+               		'MEMIDX' => $memidx,
+					'CALTIDX' => $data['caltidx'],
+					'CAL_DATE' => $data['cal_date'],
+					'CAL_COLOUR' => $data['cal_colour'],
+					'CAL_NAME' => NULL,
+            	);
+			}else{
+				$value = array(
+               		'MEMIDX' => $memidx,
+					'CAL_NAME' => $data['cal_name'],
+					'CAL_DATE' => $data['cal_date'],
+					'CAL_COLOUR' => $data['cal_colour'],
+            	);
+			}
+
 			$this->db->where('CALIDX', $data['calidx']);
 			if($this->db->update('tbl_calendar', $value)){
 				return 'true';
 			}else{
-				return "save data error!";
+				return "Save data error!";
 			}
 		}else{
-			$value = array(
-				'MEMIDX' => $memidx,
-				'CAL_NAME' => $data['cal_name'],
-				'CAL_DATE' => $data['cal_date'],
-				'LOCAIDX' => $locaidx,
-		 	);
-
+			if (!empty($data['caltidx'])) {
+				$value = array(
+               		'MEMIDX' => $memidx,
+					'CALTIDX' => $data['caltidx'],
+					'CAL_DATE' => $data['cal_date'],
+					'CAL_COLOUR' => $data['cal_colour'],
+            	);
+			}else{
+				$value = array(
+               		'MEMIDX' => $memidx,
+					'CAL_NAME' => $data['cal_name'],
+					'CAL_DATE' => $data['cal_date'],
+					'CAL_COLOUR' => $data['cal_colour'],
+            	);
+			}
 
 			$where ="WHERE CAL_DATE = '".$data['cal_date']."'";
-			$where .= " AND LOCAIDX = ".$this->session->userdata('LOCAIDX');
+			// $where .= " AND LOCAIDX = ".$this->session->userdata('LOCAIDX');
 
 			$sql = "SELECT * FROM tbl_calendar $where";
 
@@ -100,7 +162,7 @@ class Calendarmodel extends CI_Model {
 					return "save data error!";
 				}
 			}else{
-				return $data['cali_date'].' วันหยุดซ้ำ!';
+				return $data['cal_date'].' วันหยุดซ้ำ!';
 			}
 		}
 	}

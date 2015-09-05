@@ -21,7 +21,6 @@
           			<input type="checkbox" name="select[]"  onclick="CheckAll(this)" name="select_all">
          			</th>
           			<th>วันที่</th>
-          			<th>ประเภท วัน</th>
           			<th>ประเภท</th>
 				</tr>
 			</thead>
@@ -32,8 +31,7 @@
         <td>
         <input type="checkbox" name="select[]" class="chk" value="<?php echo $data[$i]["CALIDX"]?>"></td>
         <td><?php echo $data[$i]["CAL_DATE"]?></td>
-        <td><?php echo $data[$i]["CAL_NAME"]?></td>
-        <td><?php echo $data[$i]["CAL_TYPE"]?></td>
+        <td><?php echo $data[$i]["TYPE"]?></td>
     </tr>
 	<?php endfor;?>
 	<?php endif; ?>
@@ -68,8 +66,8 @@
         var selected;
 
         selected = chkArray.join(',');
-        if(selected.length > 1){
-            window.location.href = "<?php echo base_url() ?>calendar/calendarform?holidx="+selected;
+        if(selected.length >= 1){
+            window.location.href = "<?php echo base_url() ?>calendar/calendareditform?calidx="+selected;
         }else{
             alert("Please at least one of the checkbox");
         }
@@ -87,10 +85,10 @@
     	var selected;
 
     	selected = chkArray.join(',');
-    	if(selected.length > 1){
+    	if(selected.length >= 1){
         	window.location.href = "<?php echo base_url() ?>calendar/calendar/form?calidx="+selected;
     	}else{
-        	alert("Please at least one of the checkbox");
+        	alert("Please at least one of the calendar.");
     	}
 	}
     function getValueDelete(){
@@ -105,12 +103,12 @@
         var selected;
 
         selected = chkArray.join(',');
-        if(selected.length > 1){
-            if (confirm('Confirm delete holiday.')) {
+        if(selected.length >= 1){
+            if (confirm('Confirm delete calendar ?')) {
                  window.location.href = "<?php echo base_url() ?>calendar/delete?calidx="+selected;
             }
         }else{
-            alert("Please at least one of the checkbox");
+            alert("Please at least one of the calendar.");
         }
     }
 

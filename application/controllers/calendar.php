@@ -7,6 +7,7 @@ class Calendar extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('calendarmodel');
+		$this->load->library('form_validation');
 	}
 
 	public function index()
@@ -40,16 +41,27 @@ class Calendar extends CI_Controller {
 		$rs['type'] = $this->calendarmodel->getCalendarType();
 		$this->load->view('calendar/add',$rs);
 	}
+	public function calendareditform(){
+		$rs = array();
+		if (!empty($this->input->get())) {
+			$calidx = $this->input->get('calidx');
+			$rs['data'] = $this->calendarmodel->geteditcalendar($calidx);
+		}
+		$rs['type'] = $this->calendarmodel->getCalendarType();
+		$this->load->view('calendar/edit',$rs);
+	}
 	public function add(){
 		$val = array();
 		$val = $this->input->post();
+
+		// print_r($val);
 		$rs = $this->calendarmodel->saveCalendar($val);
 
 		if ($rs == 'true') {
-			$this->session->set_flashdata('alert', '');
-			redirect('calendar','refresh');
+			$this->session->set_flashdata('message_success', 'Add calendar success.');
+			redirect('calendar/calendarform','refresh');
 		}else{
-			$this->session->set_flashdata('alert', $rs);
+			$this->session->set_flashdata('message', $rs);
 			redirect('calendar/calendarform','refresh');
 		}
 	}

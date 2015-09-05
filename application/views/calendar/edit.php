@@ -8,9 +8,9 @@
     <li>
       <a href="<?php echo base_url() ?>calendar">ปฏิทิน โรงเรียน (School Calendar)</a>
     </li>
-    <li class="active">เพิ่ม ปฏิทิน(Calendar)</li>
+    <li class="active">แก้ไข ปฏิทิน(Calendar)</li>
   </ol>
-  <legend>เพิ่ม ปฏิทิน(Calendar)</legend>
+  <legend>แก้ไข ปฏิทิน(Calendar)</legend>
         <?php if(!empty($this->session->flashdata('message_error'))): ?>
 				<div class="alert alert-danger">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -27,45 +27,45 @@
     			<div class="form-group inline">
     			<label for="cal_date"  class="col-lg-3 control-label"><b>วันที่ : </b></label>
   				<div class="col-md-4" style="width:200px;">
-    			<input type="text"  name="cal_date" value="<?php if(!empty($data[0]['CAL_DATE'])){ ?><?php echo $data[0]['CAL_DATE']; ?><?php } ?>" id="cal_date" class="form-control" <?php if(!empty($data[0]['CAL_DATE'])){ echo 'disabled'; }?> placeholder="วันที่" required="required">
-<!--   				<input type="hidden" name="calidx" value="<?php if(!empty($data[0]['CALIDX'])): ?><?php echo $data[0]['CALIDX']; ?><?php endif; ?>">
- -->  				</div>
+    			<input type="text"  name="cal_date" value="<?php if(!empty($data[0]['CAL_DATE'])){ ?><?php echo $data[0]['CAL_DATE']; ?><?php } ?>" id="cal_date" class="form-control" <?php if(!empty($data[0]['CAL_DATE'])){ echo 'readonly'; }?> placeholder="วันที่" required="required">
+  				<input type="hidden" name="calidx" value="<?php if(!empty($data[0]['CALIDX'])): ?><?php echo $data[0]['CALIDX']; ?><?php endif; ?>">
+  				</div>
     			</div>
           <div class="form-group inline">
             <label for="cal_name"  class="col-lg-3 control-label"><b>Remark color  : </b></label>
             <div class="col-md-3" >
           <select name="cal_colour" required id="cal_colour" class="form-control" >
           <option value="" selected>Please select</option>
-              <option value="event-danger">Red</option>
-              <option value="event-success">Green</option>
-              <option value="event-defualt">Grey</option>
-              <option value="event-primary">Blue</option>
-              <option value="event-warning">Orange</option>
-              <option value="event-info">Blue Sky</option>
+              <option value="event-danger" <?php if($data[0]['CAL_COLOUR']=='danger'){echo 'selected';} ?>>Red</option>
+              <option value="event-success" <?php if($data[0]['CAL_COLOUR']=='success'){echo 'selected';} ?>>Green</option>
+              <option value="event-defualt" <?php if($data[0]['CAL_COLOUR']=='defualt'){echo 'selected';} ?>>Grey</option>
+              <option value="event-primary" <?php if($data[0]['CAL_COLOUR']=='primary'){echo 'selected';} ?>>Blue</option>
+              <option value="event-warning" <?php if($data[0]['CAL_COLOUR']=='warning'){echo 'selected';} ?>>Orange</option>
+              <option value="event-info" <?php if($data[0]['CAL_COLOUR']=='info'){echo 'selected';} ?>>Blue Sky</option>
           </select>
           </div>
           </div>
           <div class="form-group inline">
             <label for="cal_name"  class="col-lg-3 control-label"><b>ประเภท  : </b></label>
             <div class="col-md-3" >
-          <select name="caltidx" id="caltidx" class="form-control" >
+          <select name="caltidx" id="caltidx" class="form-control" <?php if($data[0]['CALTIDX']==0){echo "disabled";} ?>>
           <option value="" selected>Please select</option>
           <?php for ($i = 0; $i < count($type); $i++) :?>
-              <option value="<?php echo $type[$i]['CALTIDX']; ?>"><?php echo $type[$i]['CALT_NAME']; ?></option>
+              <option value="<?php echo $type[$i]['CALTIDX']; ?>" <?php if($type[$i]['CALTIDX']==$data[0]['CALTIDX']){ echo 'selected'; } ?>><?php echo $type[$i]['CALT_NAME']; ?></option>
           <?php endfor; ?>
           </select>
           <div class="checkbox" >
           <label>
-          <input type="checkbox" name="other" id="other" value="0">
+          <input type="checkbox" name="other" id="other" value="0" <?php if($data[0]['CALTIDX']==0){echo 'checked';} ?>>
               อื่นๆ
           </label>
           </div>
           </div>
           </div>
-          <div class="form-group inline" id="panel-other" style="display: none;">
+          <div class="form-group inline" id="panel-other" <?php if($data[0]['CALTIDX']!=0){echo "style='display:none;'";} ?>>
           <label for="cal_name"  class="col-lg-3 control-label"><b>ประเภท อื่นๆ : </b></label>
           <div class="col-md-6" >
-             <input type="text" name="cal_name" value="<?php if(!empty($data[0]['CAL_NAME'])): ?><?php echo $data[0]['CAL_NAME']; ?><?php endif; ?>"  id="cal_name" class="form-control" placeholder="ประเภท อื่นๆ"/>
+             <input type="text" <?php if($data[0]['CALTIDX']!=0){echo "disabled";} ?> name="cal_name"  id="cal_name" class="form-control" placeholder="ประเภท อื่นๆ" value="<?php echo $data[0]['CAL_NAME']; ?>">
           </div>
           </div>
     			<hr>
@@ -82,9 +82,9 @@
 <?php $this->load->view('template/footer'); ?>
 <script type="text/javascript">
   $(function() {
-    datePick();
+    // datePick();
     // $("#panel-other").hide();
-    $("#cal_name").attr('disabled','disabled');
+    // $("#cal_name").attr('disabled','disabled');
   });
 
   function datePick(){
