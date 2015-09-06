@@ -9,6 +9,73 @@ class Calendarmodel extends CI_Model {
 		//Do your magic here
 	}
 
+
+	function saveCalendarType($data = array()){
+		$val = array();
+		if (!empty($data['caltidx'])) {
+			$val = array(
+				'calt_name' => $data['calt_name'],
+				'calt_type' => $data['calt_type'],
+			);
+
+			$this->db->where('CALTIDX', $data['caltidx']);
+			if($this->db->update('tbl_calendar_type', $val)){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+
+			$calt_name = '';
+			$calt_name = $data['calt_name'];
+
+			$sql = "SELECT * FROM tbl_calendar_type WHERE calt_name LIKE '$calt_name' AND CALT_ACTIVE = 1";
+		
+			$q = $this->db->query($sql);
+			if ($q->num_rows() == 0) {
+				if ($this->db->insert('tbl_calendar_type', $data)) {
+					return true;
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+	}
+
+	function getidtype($id = null){
+
+		$sql = "SELECT * FROM tbl_calendar_type WHERE CALTIDX = $id AND CALT_ACTIVE = 1";
+
+		// print_r($sql);
+		if ($q = $this->db->query($sql)) {
+			return $q->result_array();
+		}
+	}
+
+	function deletetype($id = null){
+		$sql = "UPDATE tbl_calendar_type SET CALT_ACTIVE = 0 WHERE CALTIDX = $id ";
+		if ($this->db->query($sql)) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
+	function getalltype(){
+		$sql = "SELECT CALTIDX,CASE CALT_TYPE\n".
+"   WHEN 1 THEN 'วันธรรมดา'\n".
+"   WHEN 2 THEN 'วันหยุด'\n".
+"END AS TYPE,\n".
+"CALT_NAME, CALT_TYPE\n".
+"FROM tbl_calendar_type WHERE CALT_ACTIVE = 1 ";
+		if ($q = $this->db->query($sql)) {
+			return $q->result_array();
+		}
+	}
+
 	function geteventcalendar(){
 		$where = '';
 		// if ($this->session->userdata('LEVELIDX')!=1) {

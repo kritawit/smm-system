@@ -11,7 +11,8 @@
         <legend>ปฏิทิน โรงเรียน (School Calendar)</legend>
     <a type="button" class="btn btn-info"  href='<?php echo base_url() ?>calendar/viewcalendar'><span class="glyphicon glyphicon-calendar"></span> ปฏิทิน</a>
 	<a type="button" class="btn btn-success"  href='<?php echo base_url() ?>calendar/calendarform'><span class="glyphicon glyphicon-plus"></span> เพิ่ม</a>
-	<a href="javascript:editcalendar();" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
+	<a type="button" class="btn btn-default"  href='<?php echo base_url() ?>calendar/type'><span class="glyphicon glyphicon-plus"></span> เพิ่ม ประเภท</a>
+    <a href="javascript:editcalendar();" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span> แก้ไข</a>
 	<a href="javascript:deletecalenday();" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> ลบ</a>
 	<hr>
 		<table id="holiday" class="table table-condensed table-hover">
